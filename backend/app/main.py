@@ -5,10 +5,12 @@ from app.database import engine, Base
 from app.models import models
 from app.routes import auth
 from app.routes import donor
+from app.routes import donation
 
 app = FastAPI(title="HopeBridge API", version="1.0.0")
 
 app.include_router(donor.router)
+app.include_router(donation.router)
 
 models.Base.metadata.create_all(bind=engine)
 
