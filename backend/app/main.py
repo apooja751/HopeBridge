@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from app.database import engine
 from app.models import models
 
+import app.routes.inquiry as inquiry
+import app.routes.message as message
 import app.routes.auth as auth
 import app.routes.orphanage as orphanage
 import app.routes.request as request
@@ -21,6 +23,8 @@ app.include_router(request.router)
 app.include_router(donor.router)
 app.include_router(donation.router)
 app.include_router(notification.router)
+app.include_router(message.router)
+app.include_router(inquiry.router)
 
 @app.get("/")
 def root():
