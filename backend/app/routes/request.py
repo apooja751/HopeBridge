@@ -20,9 +20,8 @@ def create_request(
         title=request.title,
         category=request.category,
         description=request.description,
-        priority=request.priority,
-        status="active",
-        orphanage_id=orphanage_id
+        priority=request.priority,   # ✅ priority added
+        orphanage_id=orphanage_id    # status will auto default
     )
 
     db.add(new_request)
