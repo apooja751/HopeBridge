@@ -87,7 +87,7 @@ class Request(Base):
     category = Column(Enum(RequestCategory))
     description = Column(Text)
     image_path = Column(String)
-    priority = Column(Enum(RequestPriority), default=RequestPriority.medium)
+    priority = Column(Enum(RequestPriority), default=RequestPriority.medium, nullable=False)
     status = Column(Enum(RequestStatus), default=RequestStatus.active)
     created_at = Column(DateTime, default=datetime.utcnow)
 
