@@ -1,3 +1,4 @@
+from app.routes import request
 from fastapi import FastAPI
 from app.routes import orphanage
 from app.database import engine, Base
@@ -11,6 +12,7 @@ models.Base.metadata.create_all(bind=engine)
 # Routes
 app.include_router(auth.router)
 app.include_router(orphanage.router)
+app.include_router(request.router)
 
 @app.get("/")
 def root():
