@@ -4,8 +4,11 @@ from app.routes import orphanage
 from app.database import engine, Base
 from app.models import models
 from app.routes import auth
+from app.routes import donor
 
 app = FastAPI(title="HopeBridge API", version="1.0.0")
+
+app.include_router(donor.router)
 
 models.Base.metadata.create_all(bind=engine)
 
