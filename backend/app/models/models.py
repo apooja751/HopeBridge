@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum, Float, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database import Base
 from datetime import datetime
@@ -93,28 +94,6 @@ class Request(Base):
     orphanage = relationship("Orphanage", back_populates="requests")
     donations = relationship("Donation", back_populates="request")
 
-# ── Donations Table ────────────────────────────────
-class Donation(Base):
-    __tablename__ = "donations"
-
-    donation_id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.user_id"))
-    request_id = Column(Integer, ForeignKey("requests.request_id"))
-    donation_type = Column(Enum(DonationType))
-    amount = Column(Float)
-    items_description = Column(Text)
-    quantity = Column(Integer)
-    payment_method = Column(String)
-    payment_proof = Column(String)
-    pickup_address = Column(String)
-    pickup_date = Column(DateTime)
-    status = Column(Enum(DonationStatus), default=DonationStatus.pending)
-    delivery_status = Column(Enum(DeliveryStatus), default=DeliveryStatus.pending)
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-    donor = relationship("User", back_populates="donations")
-    request = relationship("Request", back_populates="donations")
-    payment = relationship("Payment", back_populates="donation", uselist=False)
 
 # ── Payments Table ─────────────────────────────────
 class Payment(Base):
@@ -129,7 +108,7 @@ class Payment(Base):
     payment_date = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    donation = relationship("Donation", back_populates="payment")
+    
 
 # ── Notifications Table ────────────────────────────
 class Notification(Base):
@@ -153,3 +132,20 @@ class Message(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     sender = relationship("User", back_populates="sent_messages")
+
+# ── create Donation table in database ─────────────────────────────────
+class Donation(Base):
+    __tablename__ = "donations"
+
+    donation_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.user_id"))
+    request_id = Column(Integer, ForeignKey("requests.request_id"))
+    donation_type = Column(String)
+    amount = Column(Float, nullable=True)
+    items_description = Column(String, nullable=True)
+    quantity = Column(Integer, nullable=True)
+    status = Column(String, default="pending")   
+
+    donor = relationship("User", back_populates="donations")
+    request = relationship("Request", back_populates="donations")
+
