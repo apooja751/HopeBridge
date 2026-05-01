@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from datetime import datetime, timezone
+from datetime import datetime
 
 from app.database import get_db
 from app.models import models
@@ -25,7 +25,7 @@ def create_donation(
         items_description=donation.items_description,
         quantity=donation.quantity,
 
-        # ✅ PICKUP FIELDS
+        # pickup optional at creation
         pickup_date=donation.pickup_date,
         pickup_time=donation.pickup_time,
         pickup_address=donation.pickup_address,
@@ -43,15 +43,49 @@ def create_donation(
 # ✅ GET ALL DONATIONS
 @router.get("/", response_model=list[DonationResponse])
 def get_all_donations(db: Session = Depends(get_db)):
-    donations = db.query(models.Donation).all()
-    return donations
+    return db.query(models.Donation).all()
 
 
-# ✅ STEP 21 — SCHEDULE PICKUP
+# ✅ UPDATE DONATION STATUS (for Step 16 sync)
+@router.put("/{donation_id}")
+def update_donation_status(
+    donation_id: int,
+    status: str,
+    db: Session = Depends(get_db)
+):
+    donation = db.query(models.Donation).filter(
+        models.Donation.donation_id == donation_id
+    ).first()
+
+    if not donation:
+        raise HTTPException(status_code=404, detail="Donation not found")
+
+    donation.status = status
+
+    # ✅ SYNC WITH REQUEST (Step 16)
+    if status == "completed":
+        request_obj = db.query(models.Request).filter(
+            models.Request.request_id == donation.request_id
+        ).first()
+
+        if request_obj:
+            request_obj.status = "completed"
+
+    db.commit()
+    db.refresh(donation)
+
+    return {
+        "message": "Donation updated",
+        "donation_id": donation_id,
+        "status": donation.status
+    }
+
+
+# ✅ STEP 21 — SCHEDULE PICKUP (FIXED)
 @router.put("/{donation_id}/schedule")
 def schedule_pickup(
     donation_id: int,
-    pickup_date: datetime,
+    pickup_date: str,      # ✅ FIX: take as string
     pickup_time: str,
     pickup_address: str,
     db: Session = Depends(get_db)
@@ -63,15 +97,14 @@ def schedule_pickup(
     if not donation:
         raise HTTPException(status_code=404, detail="Donation not found")
 
-    # ✅ VALIDATION: pickup date required
-    if pickup_date is None:
-        raise HTTPException(
-            status_code=400,
-            detail="Pickup date required"
-        )
+    # ✅ CONVERT string → datetime
+    try:
+        pickup_date_obj = datetime.fromisoformat(pickup_date)
+    except:
+        raise HTTPException(status_code=400, detail="Invalid date format")
 
-    # ✅ VALIDATION: must be future date
-    if pickup_date <= datetime.now(timezone.utc):
+    # ✅ VALIDATION: future date
+    if pickup_date_obj <= datetime.now():
         raise HTTPException(
             status_code=400,
             detail="Pickup date must be in the future"
@@ -85,7 +118,7 @@ def schedule_pickup(
         )
 
     # ✅ UPDATE
-    donation.pickup_date = pickup_date
+    donation.pickup_date = pickup_date_obj
     donation.pickup_time = pickup_time
     donation.pickup_address = pickup_address
 
