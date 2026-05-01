@@ -38,11 +38,23 @@ def get_all_requests(db: Session = Depends(get_db)):
 
 
 # Get requests by orphanage (Public)
-@router.get("/orphanage/{orphanage_id}", response_model=list[RequestResponse])
-def get_requests_by_orphanage(orphanage_id: int, db: Session = Depends(get_db)):
-    return db.query(models.Request).filter(
-        models.Request.orphanage_id == orphanage_id
-    ).all()
+@router.get("/all", response_model=list[RequestResponse])
+def get_all_requests(
+    priority: str = None,
+    sort: str = None,
+    db: Session = Depends(get_db)
+):
+    query = db.query(models.Request)
+
+    # 🔹 Filter by priority
+    if priority:
+        query = query.filter(models.Request.priority == priority)
+
+    # 🔹 Sort by latest
+    if sort == "latest":
+        query = query.order_by(models.Request.created_at.desc())
+
+    return query.all()
 
 
 # Update request status (Admin only)
