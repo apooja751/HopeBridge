@@ -10,7 +10,6 @@ import app.routes.request as request
 import app.routes.donor as donor
 import app.routes.donation as donation
 import app.routes.notification as notification
-from app.routes import admin
 from app.routes import message
 from app.routes import inquiry
 from app.routes import notification
@@ -29,7 +28,6 @@ app.include_router(donation.router)
 app.include_router(notification.router)
 app.include_router(message.router)
 app.include_router(inquiry.router)
-app.include_router(admin.router)
 
 @app.get("/")
 def root():

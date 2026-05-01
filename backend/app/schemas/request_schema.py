@@ -1,8 +1,9 @@
 from pydantic import BaseModel
 from typing import Optional
 from enum import Enum
-from typing import Literal
 
+
+# ── Enums ─────────────────────────────
 class RequestCategory(str, Enum):
     food = "food"
     clothes = "clothes"
@@ -15,19 +16,24 @@ class RequestPriority(str, Enum):
     medium = "medium"
     urgent = "urgent"
 
+
+# ── Create Schema ─────────────────────
 class RequestCreate(BaseModel):
     title: str
     category: RequestCategory
     description: Optional[str] = None
-    priority: Literal["low", "medium", "urgent"]
+    priority: RequestPriority   # ✅ FIXED (use Enum)
 
+
+# ── Response Schema ───────────────────
 class RequestResponse(BaseModel):
     request_id: int
     title: str
     category: RequestCategory
     description: Optional[str]
-    priority: str
-    status: str
+    priority: RequestPriority   # ✅ FIXED (use Enum)
+    status: str                 # ✅ required for Step 15
+    orphanage_id: int           # ✅ add this (important)
 
     class Config:
         from_attributes = True
