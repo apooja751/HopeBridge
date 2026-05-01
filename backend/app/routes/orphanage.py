@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, Body
+from app.utils.dependencies import require_role
+from fastapi import APIRouter, Depends, Body, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.orphanage_schema import OrphanageCreate, OrphanageResponse
@@ -6,9 +7,14 @@ from app.models import models
 
 router = APIRouter(prefix="/orphanage", tags=["Orphanage"])
 
-# Create Orphanage
+
+# Create Orphanage (Only orphanage role)
 @router.post("/create", response_model=OrphanageResponse)
-def create_orphanage(request: OrphanageCreate, db: Session = Depends(get_db)):
+def create_orphanage(
+    request: OrphanageCreate,
+    db: Session = Depends(get_db),
+    user=Depends(require_role("orphanage"))
+):
     new_orphanage = models.Orphanage(
         name=request.name,
         address=request.address,
@@ -24,25 +30,27 @@ def create_orphanage(request: OrphanageCreate, db: Session = Depends(get_db)):
     return new_orphanage
 
 
-# Get All Orphanages
+# Get All Orphanages (Public)
 @router.get("/all", response_model=list[OrphanageResponse])
 def get_all_orphanages(db: Session = Depends(get_db)):
-    orphanages = db.query(models.Orphanage).all()
-    return orphanages
+    return db.query(models.Orphanage).all()
 
 
-# Update Orphanage
+# Update Orphanage (Only orphanage role)
 @router.put("/update/{orphanage_id}", response_model=OrphanageResponse)
 def update_orphanage(
     orphanage_id: int,
     request: OrphanageCreate = Body(...),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user=Depends(require_role("orphanage"))
 ):
-    orphanage = db.query(models.Orphanage).filter(models.Orphanage.orphanage_id == orphanage_id).first()
-    
+    orphanage = db.query(models.Orphanage).filter(
+        models.Orphanage.orphanage_id == orphanage_id
+    ).first()
+
     if not orphanage:
-        return {"error": "Orphanage not found"}
-    
+        raise HTTPException(status_code=404, detail="Orphanage not found")
+
     orphanage.name = request.name
     orphanage.address = request.address
     orphanage.city = request.city
@@ -54,13 +62,21 @@ def update_orphanage(
 
     return orphanage
 
+
+# Delete Orphanage (Only orphanage role)
 @router.delete("/delete/{orphanage_id}")
-def delete_orphanage(orphanage_id: int, db: Session = Depends(get_db)):
-    orphanage = db.query(models.Orphanage).filter(models.Orphanage.orphanage_id == orphanage_id).first()
-    
+def delete_orphanage(
+    orphanage_id: int,
+    db: Session = Depends(get_db),
+    user=Depends(require_role("orphanage"))
+):
+    orphanage = db.query(models.Orphanage).filter(
+        models.Orphanage.orphanage_id == orphanage_id
+    ).first()
+
     if not orphanage:
-        return {"error": "Orphanage not found"}
-    
+        raise HTTPException(status_code=404, detail="Orphanage not found")
+
     db.delete(orphanage)
     db.commit()
 

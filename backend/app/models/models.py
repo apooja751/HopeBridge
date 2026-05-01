@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum, Float, Text, ForeignKey
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database import Base
 from datetime import datetime
@@ -23,9 +22,11 @@ class RequestPriority(str, enum.Enum):
     medium = "medium"
     urgent = "urgent"
 
+# ✅ UPDATED STATUS ENUM
 class RequestStatus(str, enum.Enum):
-    active = "active"
-    fulfilled = "fulfilled"
+    pending = "pending"
+    accepted = "accepted"
+    completed = "completed"
 
 class DonationType(str, enum.Enum):
     item = "item"
@@ -40,6 +41,7 @@ class DeliveryStatus(str, enum.Enum):
     pending = "pending"
     picked = "picked"
     delivered = "delivered"
+
 
 # ── Users Table ────────────────────────────────────
 class User(Base):
@@ -59,6 +61,7 @@ class User(Base):
     notifications = relationship("Notification", back_populates="user")
     sent_messages = relationship("Message", back_populates="sender")
 
+
 # ── Orphanages Table ───────────────────────────────
 class Orphanage(Base):
     __tablename__ = "orphanages"
@@ -77,6 +80,7 @@ class Orphanage(Base):
     user = relationship("User", back_populates="orphanage")
     requests = relationship("Request", back_populates="orphanage")
 
+
 # ── Requests Table ─────────────────────────────────
 class Request(Base):
     __tablename__ = "requests"
@@ -87,8 +91,11 @@ class Request(Base):
     category = Column(Enum(RequestCategory))
     description = Column(Text)
     image_path = Column(String)
-    priority = Column(Enum(RequestPriority), default=RequestPriority.medium)
-    status = Column(Enum(RequestStatus), default=RequestStatus.active)
+    priority = Column(Enum(RequestPriority), default=RequestPriority.medium, nullable=False)
+
+    # ✅ FIXED DEFAULT STATUS
+    status = Column(Enum(RequestStatus), default=RequestStatus.pending)
+
     created_at = Column(DateTime, default=datetime.utcnow)
 
     orphanage = relationship("Orphanage", back_populates="requests")
@@ -108,7 +115,6 @@ class Payment(Base):
     payment_date = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    
 
 # ── Notifications Table ────────────────────────────
 class Notification(Base):
@@ -122,6 +128,7 @@ class Notification(Base):
 
     user = relationship("User", back_populates="notifications")
 
+
 # ── Messages Table ─────────────────────────────────
 class Message(Base):
     __tablename__ = "messages"
@@ -133,7 +140,8 @@ class Message(Base):
 
     sender = relationship("User", back_populates="sent_messages")
 
-# ── create Donation table in database ─────────────────────────────────
+
+# ── Donation Table ─────────────────────────────────
 class Donation(Base):
     __tablename__ = "donations"
 
@@ -144,8 +152,11 @@ class Donation(Base):
     amount = Column(Float, nullable=True)
     items_description = Column(String, nullable=True)
     quantity = Column(Integer, nullable=True)
-    status = Column(String, default="pending")   
+    status = Column(String, default="pending")
+    
+    pickup_date = Column(DateTime, nullable=True)
+    pickup_time = Column(String, nullable=True)
+    pickup_address = Column(String, nullable=True)
 
     donor = relationship("User", back_populates="donations")
     request = relationship("Request", back_populates="donations")
-
