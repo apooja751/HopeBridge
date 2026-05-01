@@ -1,3 +1,5 @@
+from typing import Optional
+from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
 from enum import Enum
@@ -13,6 +15,9 @@ class DonationCreate(BaseModel):
     items_description: Optional[str] = None
     quantity: Optional[int] = None
 
+    pickup_date: Optional[datetime] = None
+    pickup_time: Optional[str] = None
+    pickup_address: Optional[str] = None
 class DonationResponse(BaseModel):
     donation_id: int
     request_id: int

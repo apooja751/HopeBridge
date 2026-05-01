@@ -153,6 +153,10 @@ class Donation(Base):
     items_description = Column(String, nullable=True)
     quantity = Column(Integer, nullable=True)
     status = Column(String, default="pending")
+    
+    pickup_date = Column(DateTime, nullable=True)
+    pickup_time = Column(String, nullable=True)
+    pickup_address = Column(String, nullable=True)
 
     donor = relationship("User", back_populates="donations")
     request = relationship("Request", back_populates="donations")
