@@ -74,7 +74,7 @@ def update_request_status(
     return request
 
 
-# NEW Status API (WITH VALID TRANSITIONS)
+# NEW Status API (WITH VALID TRANSITIONS + VALIDATION)
 @router.put("/{request_id}/status")
 def update_request_status_new(
     request_id: int,
@@ -94,11 +94,27 @@ def update_request_status_new(
     except:
         raise HTTPException(status_code=400, detail="Invalid status value")
 
-    # Valid transitions
+    # ✅ VALID TRANSITIONS
+
+    # pending → accepted
     if request.status == RequestStatus.pending and new_status == RequestStatus.accepted:
         request.status = new_status
 
+    # accepted → completed (WITH VALIDATION)
     elif request.status == RequestStatus.accepted and new_status == RequestStatus.completed:
+
+        # 🔥 CHECK COMPLETED DONATION
+        completed_donation = db.query(models.Donation).filter(
+            models.Donation.request_id == request_id,
+            models.Donation.status == "completed"
+        ).first()
+
+        if not completed_donation:
+            raise HTTPException(
+                status_code=400,
+                detail="Request cannot be completed without completed donation"
+            )
+
         request.status = new_status
 
     else:
