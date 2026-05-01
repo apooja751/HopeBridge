@@ -13,6 +13,7 @@ import app.routes.notification as notification
 from app.routes import message
 from app.routes import inquiry
 from app.routes import notification
+from app.routes import status
 
 app = FastAPI(title="HopeBridge API", version="1.0.0")
 
@@ -28,6 +29,10 @@ app.include_router(donation.router)
 app.include_router(notification.router)
 app.include_router(message.router)
 app.include_router(inquiry.router)
+
+
+app.include_router(admin.router)
+app.include_router(status.router)
 
 @app.get("/")
 def root():
