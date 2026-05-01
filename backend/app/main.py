@@ -2,25 +2,26 @@ from fastapi import FastAPI
 from app.database import engine
 from app.models import models
 
-import app.routes.inquiry as inquiry
-import app.routes.message as message
-import app.routes.auth as auth
-import app.routes.orphanage as orphanage
-import app.routes.request as request
-import app.routes.donor as donor
-import app.routes.donation as donation
-import app.routes.notification as notification
-from app.routes import message
-from app.routes import inquiry
-from app.routes import notification
-from app.routes import status
+# ✅ Import routers (clean way)
+from app.routes import (
+    auth,
+    orphanage,
+    request,
+    donor,
+    donation,
+    notification,
+    message,
+    inquiry,
+    admin,
+    status
+)
 
 app = FastAPI(title="HopeBridge API", version="1.0.0")
 
-# Create tables
+# ✅ Create tables
 models.Base.metadata.create_all(bind=engine)
 
-# Routes
+# ✅ Include routers
 app.include_router(auth.router)
 app.include_router(orphanage.router)
 app.include_router(request.router)
@@ -29,10 +30,9 @@ app.include_router(donation.router)
 app.include_router(notification.router)
 app.include_router(message.router)
 app.include_router(inquiry.router)
-
-
 app.include_router(admin.router)
 app.include_router(status.router)
+
 
 @app.get("/")
 def root():
