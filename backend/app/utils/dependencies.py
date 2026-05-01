@@ -1,7 +1,5 @@
 from fastapi import Depends, HTTPException, status
 from app.utils.auth import verify_token
-from app.database import get_db
-from sqlalchemy.orm import Session
 
 def get_current_user(token: str):
     payload = verify_token(token)
@@ -11,6 +9,7 @@ def get_current_user(token: str):
             detail="Invalid token"
         )
     return payload
+
 
 def require_role(required_role: str):
     def role_checker(user=Depends(get_current_user)):
