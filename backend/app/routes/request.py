@@ -39,10 +39,12 @@ def get_all_requests(
     limit: int = 10,
     priority: str = None,
     sort: str = None,
+    city: str = None,
+    state: str = None,
     db: Session = Depends(get_db),
     user=Depends(get_current_user)
 ):
-    query = db.query(models.Request)
+    query = db.query(models.Request).join(models.Orphanage)
 
     role = user.get("role")
 
@@ -51,17 +53,16 @@ def get_all_requests(
         orphanage_id = user.get("user_id")
         query = query.filter(models.Request.orphanage_id == orphanage_id)
 
-    # Donor → all
-    elif role == "donor":
-        pass
-
-    # Admin → all
-    elif role == "admin":
-        pass
-
-    # Filtering
+    # Filter by priority
     if priority:
         query = query.filter(models.Request.priority == priority)
+
+    # 🔥 Location filtering
+    if city:
+        query = query.filter(models.Orphanage.city.ilike(f"%{city}%"))
+
+    if state:
+        query = query.filter(models.Orphanage.state.ilike(f"%{state}%"))
 
     # Sorting
     if sort == "latest":
@@ -74,7 +75,7 @@ def get_all_requests(
     skip = (page - 1) * limit
     results = query.offset(skip).limit(limit).all()
 
-    # Clean response (safe serialization)
+    # Response
     data = []
     for r in results:
         data.append({
