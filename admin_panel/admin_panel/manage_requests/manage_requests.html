@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "primary": "#006162",
+                        "surface-container-highest": "#e0e3e2",
+                        "surface-container-low": "#f1f4f3",
+                        "on-primary-container": "#c1ffff",
+                        "outline-variant": "#bec9c8",
+                        "surface-variant": "#e0e3e2",
+                        "surface-container": "#eceeee",
+                        "on-surface-variant": "#3f4949",
+                        "on-tertiary-container": "#fff0eb",
+                        "secondary-container": "#d8e1e1",
+                        "error-container": "#ffdad6",
+                        "surface": "#f7faf9",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d8dbda",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#bfc8c8",
+                        "on-secondary-container": "#5b6465",
+                        "on-secondary-fixed": "#151d1d",
+                        "on-surface": "#181c1c",
+                        "on-tertiary-fixed-variant": "#6e381c",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#a5eff0",
+                        "secondary": "#576060",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e6e9e8",
+                        "tertiary": "#81472a",
+                        "primary-container": "#2c7a7b",
+                        "surface-tint": "#13696a",
+                        "on-primary-fixed": "#002020",
+                        "inverse-primary": "#89d3d4",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#181c1c",
+                        "inverse-on-surface": "#eff1f0",
+                        "on-primary-fixed-variant": "#004f50",
+                        "on-secondary-fixed-variant": "#404849",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#dbe4e4",
+                        "outline": "#6f7979",
+                        "tertiary-container": "#9e5f40",
+                        "primary-fixed-dim": "#89d3d4",
+                        "on-tertiary-fixed": "#351000",
+                        "surface-bright": "#f7faf9",
+                        "inverse-surface": "#2d3131",
+                        "background": "#f7faf9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "md": "24px",
+                        "xs": "4px",
+                        "lg": "40px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "h2": ["Manrope"],
+                        "label-caps": ["Inter"],
+                        "h3": ["Manrope"],
+                        "h1": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "button-text": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h2": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h3": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "button-text": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .teal-shadow {
+            box-shadow: 0 10px 30px -5px rgba(44, 122, 123, 0.08);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased">
+<!-- SideNavBar Shell -->
+<aside class="bg-teal-800 dark:bg-slate-950 h-screen w-64 fixed left-0 top-0 shadow-xl border-r border-teal-700/50 dark:border-slate-800 font-manrope antialiased flex flex-col z-50">
+<div class="p-8">
+<div class="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-teal-300" data-icon="volunteer_activism">volunteer_activism</span>
+                HopeBridge
+            </div>
+<p class="text-teal-200/60 text-xs mt-1 uppercase tracking-widest font-bold">Admin Panel</p>
+</div>
+<nav class="flex-1 mt-4">
+<a class="flex items-center gap-3 px-6 py-4 text-teal-100/80 hover:text-white transition-colors hover:bg-teal-700/30 dark:hover:bg-slate-900 transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 bg-teal-700/50 dark:bg-teal-900/30 text-white font-semibold border-r-4 border-teal-300 transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+<span>Manage Requests</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-teal-100/80 hover:text-white transition-colors hover:bg-teal-700/30 dark:hover:bg-slate-900 transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-teal-100/80 hover:text-white transition-colors hover:bg-teal-700/30 dark:hover:bg-slate-900 transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Users</span>
+</a>
+</nav>
+<div class="p-4 border-t border-teal-700/50">
+<a class="flex items-center gap-3 px-6 py-4 text-teal-100/80 hover:text-white transition-colors hover:bg-teal-700/30 dark:hover:bg-slate-900 transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 left-64 h-16 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md shadow-sm shadow-teal-900/5 border-b border-teal-50 dark:border-slate-800 flex items-center justify-between px-8 w-full z-40 font-manrope text-sm font-medium">
+<div class="flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-full w-96 border border-outline-variant focus-within:ring-2 focus-within:ring-teal-500/50 transition-all">
+<span class="material-symbols-outlined text-slate-400" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-sm" placeholder="Search requests..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative p-2 hover:bg-teal-50 dark:hover:bg-slate-800 rounded-full transition-all text-slate-500">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 pl-6 border-l border-teal-100">
+<div class="text-right">
+<p class="font-bold text-teal-900">Admin User</p>
+<p class="text-xs text-slate-500">Super Admin</p>
+</div>
+<img alt="Admin Profile" class="w-10 h-10 rounded-full object-cover border-2 border-teal-100" data-alt="A professional headshot of a middle-aged man with a friendly and trustworthy expression, set against a clean, soft-lit professional studio background. The lighting is bright and modern, characteristic of a high-end interface, with subtle teal undertones in the shadows to maintain brand consistency. He is wearing a dark charcoal suit, representing stability and leadership in a humanitarian organization." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBy2fVGgLPCbDtY0F_s0lg-_PSBE7XWKYQMWNZZx4HxEPaU_kWfEpQeXuyuwVYsDX5wDTqCQ7rOOC3wZ73cqZ7R6QxqP9KW8mBrTwfRjExC_C4NQ_cnoEkI-DgOXEu8N-X131NeVqSIV8Ud8gNGpSTBLJqTQ8gkdh20Mh7BGlwPvDOyM3SMjeLAiIRUqTtpVHRZ9_XtlIfKns5YL14_ubFMsQ-eoH7aVpQFs0myAi-5ojoSzdGJWUMVncdMDAYlSKhT3YU1n1498fI"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-container-max mx-auto p-md lg:p-lg space-y-md">
+<!-- Page Header Section -->
+<div class="flex items-end justify-between mb-lg">
+<div>
+<h1 class="font-h1 text-h1 text-primary">Manage Requests</h1>
+<p class="text-body-lg text-secondary mt-2">Review and authorize humanitarian aid requests from partnered orphanages.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 rounded-xl border border-primary text-primary font-button-text flex items-center gap-2 hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                        Filter
+                    </button>
+<button class="px-6 py-3 rounded-xl bg-primary text-white font-button-text flex items-center gap-2 shadow-lg hover:translate-y-[-2px] transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                        Create New Task
+                    </button>
+</div>
+</div>
+<!-- Bento-style Grid for Requests -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Request Card 1: Urgent -->
+<div class="glass-card teal-shadow rounded-[16px] p-md border border-white flex flex-col justify-between min-h-[380px] hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="px-3 py-1 bg-error-container text-on-error-container text-label-caps rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="priority_high">priority_high</span>
+                                URGENT
+                            </span>
+<span class="text-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="category">category</span>
+                                Logistics
+                            </span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-2 leading-tight">Funding for New Mattresses</h3>
+<p class="text-body-sm text-secondary-container text-on-secondary-container mb-6 line-clamp-3">
+                            The St. Jude's Orphanage requires 50 new orthopedic mattresses for their primary dormitory. The current bedding is over 10 years old and causing health issues for residents.
+                        </p>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-primary">Funding Progress</span>
+<span class="text-primary">75%</span>
+</div>
+<div class="w-full h-[12px] bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 75%"></div>
+</div>
+<div class="flex justify-between text-[12px] text-slate-500">
+<span>$3,750 Raised</span>
+<span>Goal: $5,000</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-3 bg-primary text-white rounded-xl font-button-text hover:bg-primary-container transition-colors">Approve</button>
+<button class="p-3 bg-surface-container-low text-secondary rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Request Card 2: Medium -->
+<div class="bg-white teal-shadow rounded-[16px] p-md border border-teal-50 flex flex-col justify-between min-h-[380px] hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-label-caps rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="bolt">bolt</span>
+                                MEDIUM
+                            </span>
+<span class="text-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="school">school</span>
+                                Education
+                            </span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-2 leading-tight">School Supplies for Semester B</h3>
+<p class="text-body-sm text-secondary-container text-on-secondary-container mb-6 line-clamp-3">
+                            Providing essential stationery, textbooks, and backpacks for 120 children across three different local schools. Includes specialized kits for high school students.
+                        </p>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-primary">Funding Progress</span>
+<span class="text-primary">40%</span>
+</div>
+<div class="w-full h-[12px] bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 40%"></div>
+</div>
+<div class="flex justify-between text-[12px] text-slate-500">
+<span>$1,200 Raised</span>
+<span>Goal: $3,000</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-3 bg-primary text-white rounded-xl font-button-text hover:bg-primary-container transition-colors">Approve</button>
+<button class="p-3 bg-surface-container-low text-secondary rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Image Card - Visual Context -->
+<div class="relative rounded-[16px] overflow-hidden min-h-[380px] shadow-lg group">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A heart-warming and optimistic scene showing happy children in a brightly lit classroom of a modern orphanage. The environment is clean, filled with natural light, and features soft mint and white walls. The overall mood is one of hope and progress, aligning with the transparent empathy brand philosophy. Warm sunlight streams through large windows, creating a soft-modern aesthetic with gentle shadows and high-key lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUT40LpSO7YL-T7LV3WjQXIXx7Ue_aNLySptg8KaT5FHUS-YV8c1hYc5NQTmylMTEoXskOMWSGq9pswXyhba8TMdvUobrXo0doAYlgjM9b_PNj5-8bKxuCFUm1xTlBnG98wLMpzevZaTLoRS--pY2Mm0vyFfE5ch0QIyS69rCRGnw4gnB3zki8ohznf48dldaLxic3oygb89Ahtw3NNHwQEcdyhu4CdnOe4oHFFjO7trZibgYfDJicMd3gKIDMzFsxkSpKMsz0R6E"/>
+<div class="absolute inset-0 bg-gradient-to-t from-teal-900/90 via-teal-900/40 to-transparent flex flex-col justify-end p-md">
+<div class="glass-card p-4 rounded-xl text-white">
+<p class="text-label-caps opacity-80 mb-1">IMPACT HIGHLIGHT</p>
+<p class="font-h3 text-lg leading-tight">Your recent approvals impacted 450 children this month.</p>
+</div>
+</div>
+</div>
+<!-- Request Card 3: Low -->
+<div class="bg-white teal-shadow rounded-[16px] p-md border border-teal-50 flex flex-col justify-between min-h-[380px] hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant text-label-caps rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                LOW
+                            </span>
+<span class="text-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="restaurant">restaurant</span>
+                                Food
+                            </span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-2 leading-tight">Organic Kitchen Garden Project</h3>
+<p class="text-body-sm text-secondary-container text-on-secondary-container mb-6 line-clamp-3">
+                            Implementing a sustainable hydroponic garden system to provide fresh vegetables daily. This project also includes educational workshops for the children.
+                        </p>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-primary">Funding Progress</span>
+<span class="text-primary">92%</span>
+</div>
+<div class="w-full h-[12px] bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 92%"></div>
+</div>
+<div class="flex justify-between text-[12px] text-slate-500">
+<span>$2,300 Raised</span>
+<span>Goal: $2,500</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-3 bg-primary text-white rounded-xl font-button-text hover:bg-primary-container transition-colors">Approve</button>
+<button class="p-3 bg-surface-container-low text-secondary rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Request Card 4: Urgent -->
+<div class="glass-card teal-shadow rounded-[16px] p-md border border-white flex flex-col justify-between min-h-[380px] hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="px-3 py-1 bg-error-container text-on-error-container text-label-caps rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="emergency">emergency</span>
+                                URGENT
+                            </span>
+<span class="text-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="medical_services">medical_services</span>
+                                Health
+                            </span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-2 leading-tight">Vaccination Drive Q3</h3>
+<p class="text-body-sm text-secondary-container text-on-secondary-container mb-6 line-clamp-3">
+                            Mandatory health checkups and vaccination series for all new arrivals and annual boosters for long-term residents. Immediate funding required for medical supplies.
+                        </p>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-primary">Funding Progress</span>
+<span class="text-primary">15%</span>
+</div>
+<div class="w-full h-[12px] bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 15%"></div>
+</div>
+<div class="flex justify-between text-[12px] text-slate-500">
+<span>$450 Raised</span>
+<span>Goal: $3,000</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-3 bg-primary text-white rounded-xl font-button-text hover:bg-primary-container transition-colors">Approve</button>
+<button class="p-3 bg-surface-container-low text-secondary rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Request Card 5: Medium -->
+<div class="bg-white teal-shadow rounded-[16px] p-md border border-teal-50 flex flex-col justify-between min-h-[380px] hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-label-caps rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="bolt">bolt</span>
+                                MEDIUM
+                            </span>
+<span class="text-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="home">home</span>
+                                Facilities
+                            </span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-2 leading-tight">Solar Panel Installation</h3>
+<p class="text-body-sm text-secondary-container text-on-secondary-container mb-6 line-clamp-3">
+                            Reducing operational costs and ensuring reliable energy for evening study sessions. The project aims to install a 5kW grid-tied system on the main roof.
+                        </p>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-primary">Funding Progress</span>
+<span class="text-primary">55%</span>
+</div>
+<div class="w-full h-[12px] bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 55%"></div>
+</div>
+<div class="flex justify-between text-[12px] text-slate-500">
+<span>$4,400 Raised</span>
+<span>Goal: $8,000</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-3 bg-primary text-white rounded-xl font-button-text hover:bg-primary-container transition-colors">Approve</button>
+<button class="p-3 bg-surface-container-low text-secondary rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
