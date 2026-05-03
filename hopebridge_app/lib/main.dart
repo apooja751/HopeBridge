@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Removes the debug banner
       title: 'HopeBridge',
       theme: AppTheme.lightTheme, // 👉 Applied your custom Deep Teal theme
-      home: DonorDashboard(),
+      home: LoginScreen(),
     );
   }
 }
